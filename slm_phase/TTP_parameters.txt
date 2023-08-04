@@ -1,0 +1,34 @@
+### TTP-MMA Parameters
+for specific: p,lambda (pixelpitch p, wavelength lambda)
+to be determined: amplitude,piston,alphaX,alphaY
+free Parameters: number of sampling points per Pixel
+
+# insights
+exponential function: exp(1i*(piston+alphaX*xx))
+raster: xx = [-0,5...0,5]
+pixel coordinates: xx=[-0,5...0,5]*p
+phase-change over entire pixel by tilt: alphaX
+Phase-slope in mm/mm: alphaX /(2*pi)*lambda /p
+tilt of 45° or slope=1: alpha = 2*pi/lambda /p
+for simulation (equation): alphaX*xx =!= 2*pi/lambda*k_x*x   =>   k_x = alphaX*lambda/(2*pi*p)
+
+# typical value ranges (not enforced !)
+amplitude = [0,1]
+piston = [-pi,pi]
+alphaX,alphaY = [-2*pi/lambda/p,2*pi/lambda/p] (45° slope)
+
+# blazing offset (bo)
+  bo                  p
+------ 		        ------
+|   / 		 ---    \    | 
+|z / 		|   |     \  |phi/(2*pi)*lambda
+| / 		|    ---    \|
+|/theta 	|   |   |
+bo = z*tan(theta) with theta = atan(phi/(2*pi)*lambda/p))
+and phi beeing the phase change between two pixels (p)
+=> bo = z*alphaX/(2*pi)*lambda
+
+DEUTSCH - TTP-MMA Parameterwahl
+Die Koeffizienten $piston,alphaX,alphaY$ eines SLMs werden für einen festgelegten Pixelabstand $p$ und aus einem Wellenfeld einer festen Wellenlänge $\lambda$ berechnet. Eine Umrechnung dieser Koeffizienten für andere $p, \lambda$ ist nicht möglich, so dass die Koeffizienten nicht als Variablen zwischen den Funktionen (in Matlab) übergeben werden müssen. Für eine Simulation des Wellenfeldes macht es außerdem nur Sinn einen TTP-Pixel durch eine ganze Zahl an Pixeln anzunähern, um eine Verfälschung der Ergebnisse durch erneute Interpolation zu vermeiden.
+Somit kann ein TTP-Pixel vereinfacht durch den Phasenversatz $piston$ und die Phasendifferenz $alphaX,alphaY$ zwischen den Kanten des Pixels beschrieben werden, wobei für eine Simulation die Anzahl an SLM-Pixel verändert werden kann. Diese Koeffizienten sind auf einen Bereich von $[0,2\pi]$ für $piston$ bzw. $[-2*pi/lambda/p,2*pi/lambda/p]$ für $alphaX,alphaY$ (für maximale Kippwinkel von +-45°) definiert. Zusätzlich wird die Amplitudenmodulation des Pixels im Intervall $[0,1]$ angegeben.
+Abgespeichert können diese Parameter komprimiert als Matlab .mat Datei, wobei die Werte auf uint16 skaliert werden womit äquidistante Schritte entstehen und noch weniger Speicher gebraucht wird.

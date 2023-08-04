@@ -1,0 +1,17 @@
+close all; clear; clc;
+addpath('./critical_functions');
+addpath('./critical_functions/data_manipulation');
+addpath('./critical_functions/image_manipulation');
+addpath('./critical_functions/save_n_load');
+addpath('./critical_functions/error_metrics');
+addpath('./critical_functions/image_registration');
+addpath('./critical_functions/error_function');
+addpath('./critical_functions/stft');
+addpath('./critical_functions/linear_interpolation');
+addpath('./objects4display/2D_planes');
+addpath('./objects4display/2D_planes/BIAS_logos');
+addpath('./objects4display/3D_objects');
+addpath('./propagation');
+addpath('./slm_phase');
+addpath('./calibration');
+addpath('./interfacing');

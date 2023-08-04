@@ -1,0 +1,11 @@
+### Propagation, Phasen, Vorzeichen
+?_?(?) = F^{?1}{ F{ ??(?) } ? exp[?2?/???_?] }
+
+rendering - focusing-lens for point source: 			U_D = U_O*exp(i*k*z)			|z=sqrt(x^2+z^2) angular_spectrum
+														U_D = exp(sign(z)*i*k*r) 		|r=sqrt(x^2+z^2) point source
+														U_D = exp(sign(z)*i*k*(z+x^2/(2z))) 			 fresnel
+														U_D = exp(i*k*x^2/(2*fl))						 focusing-lens
+propagate - diverge light: 								U_O = U_D*exp(-i*k*z)			|z=sqrt(x^2+z^2) angular_spectrum
+
+positive phase at SLM (U_D) -> converging
+negative phase at SLM (U_D) -> diverging
