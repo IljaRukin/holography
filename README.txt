@@ -41,6 +41,8 @@ imwrite(frame,'myIMG.png');
 
 ## undistroting images
 - you can undistort captured images to make them comparable to the original image. to do so an example is provided in the folder "./undistort_image/".
+- to do a simple undistortion first capture a hologram of 4 points placed on the edges of an rectangle 2cm apart from each other. Then do the calibration with the script "calculate_transform.m" by selecting the captured and the corresponding reference points with your mouse. After closing the selection window a affine transform from the captured to the reference image is stored in the "distortion_matrix.mat". To appply this transform to the other images of your set execute the script "process_image.m".
+- to do a more accurate undistortion use the same process as before, but with the scripts "calculate_modify_transform.m" to calculate the affine transform including radial/tangential undistortion and gaussian intensity correction. This produces the undistortion matrix "distorsion_interpolation.m", which can be applied using "process_modify_image.m".
 
 ## simulation
 - to simulate the display of a hologramm the script "./reconstruct" can be used. It simulates the propagation of the wavefield to a specified depth. Moreover the wavefield passing through a partially closed aperture is simulated, as well as the lightfield (using stft) computed.
