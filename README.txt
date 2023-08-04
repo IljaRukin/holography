@@ -40,7 +40,7 @@ imwrite(frame,'myIMG.png');
 - to capture many different holograms from images ".fp.img" at once use "./capture.m".
 
 ## undistroting images
-- you can undistort captured images to make them comparable to the original image. to do so an example is provided in the folder "./undistortion_image/".
+- you can undistort captured images to make them comparable to the original image. to do so an example is provided in the folder "./undistort_image/".
 
 ## simulation
 - to simulate the display of a hologramm the script "./reconstruct" can be used. It simulates the propagation of the wavefield to a specified depth. Moreover the wavefield passing through a partially closed aperture is simulated, as well as the lightfield (using stft) computed.
