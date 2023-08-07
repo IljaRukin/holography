@@ -50,5 +50,5 @@ imwrite(frame,'myIMG.png');
 
 ## required software:
 matlab + genicaminterface extension
-(infranview)
-(vimbaviewer driver)
+(infranview) (programm for display of images at correct scale and disabled interpolation)
+(vimbaviewer driver) (drivers for camera)
