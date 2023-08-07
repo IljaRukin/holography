@@ -92,17 +92,22 @@ U=double(imread('2butterfly4096.jpg')); imgname='Butterfly';
 U = sqrt(U);
 
 %% set initial phase
-% constante phase
-U = U;
-ObjectName = [ObjectName,'_constant'];
-% random phase
-U = U.*exp(1i*2*pi*rand(N,M,nSlices));
-ObjectName = [ObjectName,'_random'];
-% random interpolated phase
-for n=nSlices
-    U(:,:,n) = U(:,:,n).*exp(1i*2*pi*imresize(rand(N/2,M/2),2));
-end
-ObjectName = [ObjectName,'_randominterpolated'];
+% % constante phase
+% U = U;
+% ObjectName = [ObjectName,'_constant'];
+% % random phase
+% U = U.*exp(1i*2*pi*rand(N,M,nSlices));
+% ObjectName = [ObjectName,'_random'];
+% % random interpolated phase
+% for n=nSlices
+%     U(:,:,n) = U(:,:,n).*exp(1i*2*pi*imresize(rand(N/2,M/2),2));
+% end
+% ObjectName = [ObjectName,'_randominterpolated'];
+% % pseudorandom phase
+dPhi = 2*pi/6;
+% for n=nSlices
+%     U(:,:,n) = U(:,:,n).*exp(1i*pseudorandomPhase(N,M,dPhi));
+% end
 
 %% save object as gif
 % Tframe = 0.1; %time a frame is displayed in seconds

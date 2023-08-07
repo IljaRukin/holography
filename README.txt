@@ -38,7 +38,7 @@ imwrite(frame,'myIMG.png');
 '''
 - to capture multiple images in a loop of the same scene (e.g. while focusing on different depths) use "./capture_loop.m".
 - to capture many different holograms from images ".png" at once use "./capture_png.m".
-- to capture many different holograms from images ".fp.img" at once use "./capture.m".
+- to capture many different holograms from images ".fp.img" at once use "./capture_FPimg.m".
 
 ## undistroting images
 - you can undistort captured images to make them comparable to the original image. to do so an example is provided in the folder "./undistort_image/".

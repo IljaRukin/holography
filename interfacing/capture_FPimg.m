@@ -11,12 +11,12 @@ x = videoinput('gentl',1);
 src = getselectedsource(x);
 src.ExposureTime = 50000;
 
-%% wavefield
-sourcepath = './WF/';
-destinationpath = './experiment_amplitude/';
+%% select .fp.img (wavefield files)
+sourcepath = './results/';
+destinationpath = './experiment/';
 files = dir(fullfile(sourcepath, '*4x4*z-250*.fp.img'));
 filenames = {files.name};
-files = dir(fullfile(sourcepath, '*fullres*z-250*.fp.img'));
+files = dir(fullfile(sourcepath, '*.fp.img'));
 filenames = horzcat(filenames,files.name);
 
 countMAX = numel(filenames);
@@ -60,6 +60,10 @@ for filename=filenames
         E = E.*amp_correct;
     end
 
+    %set amplitude modulation
+    %(-1) full amplitude modulation
+    %(0) no amplitude modulation
+    %(else) binary amplitude modulation using value as threshold threshold in %
     for amp=[-1,0,1,5,10,20,30,40,50,60,70,80,90]
         if amp==-1
             E0 = E;
@@ -93,13 +97,13 @@ for filename=filenames
         % phiRGB(:,:,2) = phi0;
         % phiRGB(:,:,3) = phi0;
 
-        %scale phase for display
+        %correct phase for display with selected lambda
         phiRGB = mod(phiRGB/(2*pi),1) *lambda/0.000633;
         phiRGB = crop( phiRGB ,Nslm,Mslm);
 
         f1 = display_fullscreen(display_screen,phiRGB);
 
-        %%% capture images
+        %%% capture images with different exposure times
         for expTime=exposure_times
             src.ExposureTime = expTime;
             pause(0.1);
