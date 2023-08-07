@@ -92,8 +92,8 @@ U=double(imread('2butterfly4096.jpg')); imgname='Butterfly';
 U = sqrt(U);
 
 %% set initial phase
-% % constante phase
-% U = U;
+% constante phase
+U = U;
 % ObjectName = [ObjectName,'_constant'];
 % % random phase
 % U = U.*exp(1i*2*pi*rand(N,M,nSlices));
@@ -104,7 +104,7 @@ U = sqrt(U);
 % end
 % ObjectName = [ObjectName,'_randominterpolated'];
 % % pseudorandom phase
-dPhi = 2*pi/6;
+% dPhi = 2*pi/6;
 % for n=nSlices
 %     U(:,:,n) = U(:,:,n).*exp(1i*pseudorandomPhase(N,M,dPhi));
 % end
@@ -145,31 +145,31 @@ toc
 
 %% amplitude encoding before TTP-MMA regression (useless, since regression destroys encoding)
 % full amplitude
-%E0 = E0;
+%E = E;
 % double Phase - vertical resolution 2x reduced / horizontal resolution unchanged
 %phi = zeros(N,M);
-%phi(1:2:end,:) = angle(E0(1:2:end,:)) + acos( abs(E0(1:2:end,:)) );
-%phi(2:2:end,:) = angle(E0(1:2:end,:)) - acos( abs(E0(1:2:end,:)) );
-%E0 = exp(1i*phi);
+%phi(1:2:end,:) = angle(E(1:2:end,:)) + acos( abs(E(1:2:end,:)) );
+%phi(2:2:end,:) = angle(E(1:2:end,:)) - acos( abs(E(1:2:end,:)) );
+%E = exp(1i*phi);
 % single Phase
-%signum = ( 1-2*(real(E0)<0) ) .* ( 1-2*rem((1:M)+(1:N).',2) );
-%phi = angle(E0) + signum.*acos(abs(E0));
-%E0 = exp(1i*phi);
+%signum = ( 1-2*(real(E)<0) ) .* ( 1-2*rem((1:M)+(1:N).',2) );
+%phi = angle(E) + signum.*acos(abs(E));
+%E = exp(1i*phi);
 % bidirectional error diffusion
 %rmask = [[0,0,7/16].',[3/16,5/16,1/16].'].';
 %lmask = fliplr(rmask);
 %for yp=1:1:N-1
 %    if rem(yp,2)==0
 %        for xp = 2:1:M-1
-%            Ep = exp(1i*angle(E0(yp,xp))); %wavefield at (xp,yp) without amplitude
-%            E0(yp:yp+1,xp-1:xp+1) = E0(yp:yp+1,xp-1:xp+1) + (E0(yp,xp)-Ep).*rmask; %diffuse error
-%            E0(yp,xp) = Ep; %remove amplitude
+%            Ep = exp(1i*angle(E(yp,xp))); %wavefield at (xp,yp) without amplitude
+%            E(yp:yp+1,xp-1:xp+1) = E(yp:yp+1,xp-1:xp+1) + (E(yp,xp)-Ep).*rmask; %diffuse error
+%            E(yp,xp) = Ep; %remove amplitude
 %        end
 %            else
 %        for xp = M-1:-1:2
-%            Ep = exp(1i*angle(E0(yp,xp))); %wavefield at (xp,yp) without amplitude
-%            E0(yp:yp+1,xp-1:xp+1) = E0(yp:yp+1,xp-1:xp+1) + (E0(yp,xp)-Ep).*lmask; %diffuse error
-%            E0(yp,xp) = Ep; %remove amplitude
+%            Ep = exp(1i*angle(E(yp,xp))); %wavefield at (xp,yp) without amplitude
+%            E(yp:yp+1,xp-1:xp+1) = E(yp:yp+1,xp-1:xp+1) + (E(yp,xp)-Ep).*lmask; %diffuse error
+%            E(yp,xp) = Ep; %remove amplitude
 %        end
 %    end
 %end
@@ -177,14 +177,14 @@ toc
 %% TTP-MMA regression
 Npixel=4;
 NpixelX = Npixel; NpixelY = Npixel;
-E0 = MMAtiling(E0,NpixelX,NpixelY);
-%E0 = SLMtiling(E0,NpixelX,NpixelY);
+E = MMAtiling(E,NpixelX,NpixelY);
+%E = SLMtiling(E,NpixelX,NpixelY);
 
 %% amplitude encoding after TTP-MMA regression (prefered, since the encoding is not destroyed)
 NmirrorX = floor(M/NpixelX);
 NmirrorY = floor(N/NpixelY);
 % low-res amplitude array
-tiled = reshape(mean(mean(reshape( abs(E0) ,NpixelY,NmirrorY,NpixelX,NmirrorX),3),1),NmirrorY,NmirrorX);
+tiled = reshape(mean(mean(reshape( abs(E) ,NpixelY,NmirrorY,NpixelX,NmirrorX),3),1),NmirrorY,NmirrorX);
 % full amplitude
 %tiled = abs(tiled);
 % double Phase - vertical resolution 2x reduced / horizontal resolution unchanged
@@ -227,15 +227,15 @@ for m=1:NpixelX
         encoded_amplitude(n:NpixelY:end,m:NpixelX:end)=tiled;
     end
 end
-%% combine (in phase) encoded amplitude with the phase of the wavefield (E0mma)
-E0 = encoded_amplitude.*exp(1i*angle(E0));
+%% combine (in phase) encoded amplitude with the phase of the wavefield (Emma)
+E = encoded_amplitude.*exp(1i*angle(E));
 clear encoded_amplitude;
 
 %% adjust wavefield amplitude
 E = E/max(abs(E(:)));
 
 %% reduce resolution to the resolution of the SLM
-%E0 = crop(E0,Nslm,Mslm);
+%E = crop(E,Nslm,Mslm);
 
 %% display phase
 figure(2);imagesc(angle(E));colorbar();colormap(parula);axis("equal");axis xy;
