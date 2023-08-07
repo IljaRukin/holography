@@ -138,36 +138,36 @@ E = angular_spectrum(U,-zSlices,Dn,Dm,lambda,zeropad); %Methode 5
 % E = sommerfeld(U,-zSlices,Dn,Dm,lambda,zeropad,antialias);
 toc
 
-%% amplitude enncoding before TTP-MMA regression
+%% amplitude encoding before TTP-MMA regression (useless, since regression destroys encoding)
 % full amplitude
-E0 = E0;
+%E0 = E0;
 % double Phase - vertical resolution 2x reduced / horizontal resolution unchanged
-phi = zeros(N,M);
-phi(1:2:end,:) = angle(E0(1:2:end,:)) + acos( abs(E0(1:2:end,:)) );
-phi(2:2:end,:) = angle(E0(1:2:end,:)) - acos( abs(E0(1:2:end,:)) );
-E0 = exp(1i*phi);
+%phi = zeros(N,M);
+%phi(1:2:end,:) = angle(E0(1:2:end,:)) + acos( abs(E0(1:2:end,:)) );
+%phi(2:2:end,:) = angle(E0(1:2:end,:)) - acos( abs(E0(1:2:end,:)) );
+%E0 = exp(1i*phi);
 % single Phase
-signum = ( 1-2*(real(E0)<0) ) .* ( 1-2*rem((1:M)+(1:N).',2) );
-phi = angle(E0) + signum.*acos(abs(E0));
-E0 = exp(1i*phi);
+%signum = ( 1-2*(real(E0)<0) ) .* ( 1-2*rem((1:M)+(1:N).',2) );
+%phi = angle(E0) + signum.*acos(abs(E0));
+%E0 = exp(1i*phi);
 % bidirectional error diffusion
-rmask = [[0,0,7/16].',[3/16,5/16,1/16].'].';
-lmask = fliplr(rmask);
-for yp=1:1:N-1
-    if rem(yp,2)==0
-        for xp = 2:1:M-1
-            Ep = exp(1i*angle(E0(yp,xp))); %wavefield at (xp,yp) without amplitude
-            E0(yp:yp+1,xp-1:xp+1) = E0(yp:yp+1,xp-1:xp+1) + (E0(yp,xp)-Ep).*rmask; %diffuse error
-            E0(yp,xp) = Ep; %remove amplitude
-        end
-            else
-        for xp = M-1:-1:2
-            Ep = exp(1i*angle(E0(yp,xp))); %wavefield at (xp,yp) without amplitude
-            E0(yp:yp+1,xp-1:xp+1) = E0(yp:yp+1,xp-1:xp+1) + (E0(yp,xp)-Ep).*lmask; %diffuse error
-            E0(yp,xp) = Ep; %remove amplitude
-        end
-    end
-end
+%rmask = [[0,0,7/16].',[3/16,5/16,1/16].'].';
+%lmask = fliplr(rmask);
+%for yp=1:1:N-1
+%    if rem(yp,2)==0
+%        for xp = 2:1:M-1
+%            Ep = exp(1i*angle(E0(yp,xp))); %wavefield at (xp,yp) without amplitude
+%            E0(yp:yp+1,xp-1:xp+1) = E0(yp:yp+1,xp-1:xp+1) + (E0(yp,xp)-Ep).*rmask; %diffuse error
+%            E0(yp,xp) = Ep; %remove amplitude
+%        end
+%            else
+%        for xp = M-1:-1:2
+%            Ep = exp(1i*angle(E0(yp,xp))); %wavefield at (xp,yp) without amplitude
+%            E0(yp:yp+1,xp-1:xp+1) = E0(yp:yp+1,xp-1:xp+1) + (E0(yp,xp)-Ep).*lmask; %diffuse error
+%            E0(yp,xp) = Ep; %remove amplitude
+%        end
+%    end
+%end
 
 %% TTP-MMA regression
 Npixel=4;
@@ -175,13 +175,13 @@ NpixelX = Npixel; NpixelY = Npixel;
 E0 = MMAtiling(E0,NpixelX,NpixelY);
 %E0 = SLMtiling(E0,NpixelX,NpixelY);
 
-%% amplitude enncoding after TTP-MMA regression
+%% amplitude encoding after TTP-MMA regression (prefered, since the encoding is not destroyed)
 NmirrorX = floor(M/NpixelX);
 NmirrorY = floor(N/NpixelY);
 % low-res amplitude array
 tiled = reshape(mean(mean(reshape( abs(E0) ,NpixelY,NmirrorY,NpixelX,NmirrorX),3),1),NmirrorY,NmirrorX);
 % full amplitude
-tiled = abs(tiled);
+%tiled = abs(tiled);
 % double Phase - vertical resolution 2x reduced / horizontal resolution unchanged
 phi = zeros(N/NpixelY,M/NpixelX);
 %phi(1:2:end,:) = angle(tiled(1:2:end,:)) + acos( abs(tiled(1:2:end,:)) ); %line encoding
@@ -193,27 +193,27 @@ phi(2:2:end,1:2:end) = - acos( ampli(:,1:2:end) ); %checker board encoding
 phi(2:2:end,2:2:end) = + acos( ampli(:,2:2:end) ); %checker board encoding
 tiled = exp(1i*phi);
 % single Phase
-signum = ( 1-2*(real(tiled)<0) ) .* ( 1-2*rem((1:M/NpixelX)+(1:N/NpixelY).',2) );
-phi = angle(tiled) + signum.*acos(abs(tiled));
-tiled = exp(1i*phi);
+%signum = ( 1-2*(real(tiled)<0) ) .* ( 1-2*rem((1:M/NpixelX)+(1:N/NpixelY).',2) );
+%phi = angle(tiled) + signum.*acos(abs(tiled));
+%tiled = exp(1i*phi);
 % bidirectional error diffusion
-rmask = [[0,0,7/16].',[3/16,5/16,1/16].'].';
-lmask = fliplr(rmask);
-for yp=1:1:N/NpixelY-1
-    if rem(yp,2)==0
-        for xp = 2:1:M/NpixelX-1
-            Ep = exp(1i*angle(tiled(yp,xp))); %wavefield at (xp,yp) without amplitude
-            tiled(yp:yp+1,xp-1:xp+1) = tiled(yp:yp+1,xp-1:xp+1) + (tiled(yp,xp)-Ep).*rmask; %diffuse error
-            tiled(yp,xp) = Ep; %remove amplitude
-        end
-            else
-        for xp = M/NpixelX-1:-1:2
-            Ep = exp(1i*angle(tiled(yp,xp))); %wavefield at (xp,yp) without amplitude
-            tiled(yp:yp+1,xp-1:xp+1) = tiled(yp:yp+1,xp-1:xp+1) + (tiled(yp,xp)-Ep).*lmask; %diffuse error
-            tiled(yp,xp) = Ep; %remove amplitude
-        end
-    end
-end
+%rmask = [[0,0,7/16].',[3/16,5/16,1/16].'].';
+%lmask = fliplr(rmask);
+%for yp=1:1:N/NpixelY-1
+%    if rem(yp,2)==0
+%        for xp = 2:1:M/NpixelX-1
+%            Ep = exp(1i*angle(tiled(yp,xp))); %wavefield at (xp,yp) without amplitude
+%            tiled(yp:yp+1,xp-1:xp+1) = tiled(yp:yp+1,xp-1:xp+1) + (tiled(yp,xp)-Ep).*rmask; %diffuse error
+%            tiled(yp,xp) = Ep; %remove amplitude
+%        end
+%            else
+%        for xp = M/NpixelX-1:-1:2
+%            Ep = exp(1i*angle(tiled(yp,xp))); %wavefield at (xp,yp) without amplitude
+%            tiled(yp:yp+1,xp-1:xp+1) = tiled(yp:yp+1,xp-1:xp+1) + (tiled(yp,xp)-Ep).*lmask; %diffuse error
+%            tiled(yp,xp) = Ep; %remove amplitude
+%        end
+%    end
+%end
 
 %% expand phase array, which was calculated by encoding the amplitude
 encoded_amplitude = zeros(NmirrorY*NpixelY,NmirrorX*NpixelX);
@@ -238,6 +238,6 @@ figure(2);imagesc(angle(E));colorbar();colormap(parula);axis("equal");axis xy;
 %% save result
 path = './results/';
 fname = [ObjectName,'_z',num2str(zSlices(1)),'_',num2str(zSlices(end)),'_nSlices',num2str(nSlices),'_lambda',num2str(lambda*1e+6),'_Dm',num2str(Dm*1e+3),'_Dn',num2str(Dn*1e+3),'_rng',num2str(random_seed)];
-% saveFPImage(E,[path,'WF_',fname,'.fp.img']);
+saveFPImage(E,[path,'WF_',fname,'.fp.img']);
 % saveTTPAparams([path,'params_',fname,'.mat'], scaleValues(abs(E),0,1), angle(E), 0, 0, lambda, Dm, Dn);
 % save([path,'E_',fname,'.mat'],'E');
