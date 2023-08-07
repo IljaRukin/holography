@@ -106,8 +106,8 @@ E = angular_spectrum(E,[z1],Dn,Dm,lambda,zeropad); %Methode 5
 % E = E.*(xx>0);
 
 %% propagate again
-antialias = true;
-zeropad = true;
+% antialias = true;
+% zeropad = true;
 %%%E = convolution(E,[z2],Dn,Dm,lambda,antialias); %Methode 1
 %%%E = fourier_multiplication(E,[z2],Dn,Dm,lambda,zeropad,antialias); %Methode 2
 % Dm=z2*lambda/(M*Dm);Dn=z2*lambda/(N*Dn);E = fresnel(E,[z2],Dn,Dm,lambda,zeropad); %Methode 3

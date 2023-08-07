@@ -46,7 +46,7 @@ imwrite(frame,'myIMG.png');
 - to do a more accurate undistortion use the same process as before, but with the scripts "calculate_modify_transform.m" to calculate the affine transform including radial/tangential undistortion and gaussian intensity correction. This produces the undistortion matrix "distorsion_interpolation.m", which can be applied using "process_modify_image.m".
 
 ## simulation
-- to simulate the display of a hologramm the script "./reconstruct" can be used. It simulates the propagation of the wavefield to a specified depth. Moreover the wavefield passing through a partially closed aperture is simulated, as well as the lightfield (using stft) computed.
+- to simulate the display of a hologramm the script "./reconstruct" can be used. It simulates the propagation of the wavefield to a specified depth. Stepwise propagation with apertures and lenses can be enabled. the lightfield (using stft) is also computed.
 - the wigner function of a wavefield can be calculated with "./wigner_fkt/wigner1D.m" and "./wigner_fkt/wigner2D.m" in 1D and 2D. Both calculation have the option to be executed on the cpu or gpu (appropriate cuda drivers needed !)
 
 ## required software:
