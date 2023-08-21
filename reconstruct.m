@@ -4,11 +4,11 @@ close all;clear;clc;
 Dm = 0.008;
 Dn = 0.008;
 lambda = 0.000638;
-z1 = -400;
-% z2 = 50;
+z1 = -100; %-50;
+% z2 = -50;
 
 %% wavefield
-filename = './results/WF_BIAS_rect_nonrandom_z50_100_nSlices10_lambda638_Dm8_Dn8_rng0.fp.img';
+filename = './results/WF_3D_cube_z-80_-100_nSlices5_lambda638_Dm8_Dn8_rng0.fp.img';
 E=loadFPImage(filename);
 % [amp,piston,alphaX,alphaY]=loadTTPAparams([path,'params_',fname,'.mat'],lambda,Dm,Dn); E=amp.*exp(1i*( TTP2Phase(alphaX, alphaY, piston, 1, 1) ));
 % E=load([path,'E_',fname,'.mat']);E=E.E;
@@ -52,6 +52,7 @@ xx = xx*Dm; yy = yy*Dn;
 
 %% display phase
 figure(1);imagesc(angle(E));colorbar();axis("equal");axis xy;
+title('phase');
 
 %% blazing
 %%%blazing offset bo = z*tan(theta)
@@ -122,6 +123,7 @@ figure(2);
 imagesc(sq2(E)); %intensity
 % minVal = -10; maxVal = 20; imagesc(min(max(log10(sq2(E)),minVal),maxVal)); %log10 intensity
 colorbar();colormap(gray);axis("equal");axis xy;
+title('propagated wavefield itensity');
 
 % figure(3);
 % imagesc(angle(E)); %phase
@@ -139,3 +141,4 @@ val = 1.1*max(max(abs(LF)));
 LF(1:w+1:M+M/w+1,:)=val; LF(:,1:w+1:N+N/w+1)=val;
 figure(4);imagesc((abs(LF))); %lightfield amplitude
 colorbar();colormap(hot);axis("equal");axis xy;axis off;
+title('lightfield');

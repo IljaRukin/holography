@@ -12,8 +12,8 @@ Dn = 0.008; %SLM y pixel pitch = hologram pixel pitch (except for fresnel propag
 lambda = 0.000638; %wavelength
 
 % z0 = M*Dm^2/lambda; %distance for 1:1 scaling with fresnel propagation
-nSlices = 10; %number of image planes
-zmin = 50; zmax = 100; %plane distances to SLM (negative = virtual)
+nSlices = 5; %number of image planes
+zmin = -80; zmax = -100; %plane distances to SLM (negative = virtual)
 zSlices = linspace(zmin,zmax,nSlices); %position of image planes (distance to SLM)
 
 %% load object slices
@@ -24,9 +24,9 @@ zSlices = linspace(zmin,zmax,nSlices); %position of image planes (distance to SL
 % U(M/2,N/2) = 1;
 
 %%% 3D cube
-% ObjectName = '3D_cube';
-% dCubeX = 700; dCubeY = 400; edgeWidth = 5; fb_offset = 200;
-% U = wire_cube(M,N,nSlices,dCubeX,dCubeY,edgeWidth,fb_offset);
+ObjectName = '3D_cube';
+dCubeX = 700; dCubeY = 400; edgeWidth = 5; fb_offset = 200;
+U = wire_cube(M,N,nSlices,dCubeX,dCubeY,edgeWidth,fb_offset);
 
 %%% BIAS logo
 % ObjectName = '2D_bias';
@@ -76,17 +76,15 @@ zSlices = linspace(zmin,zmax,nSlices); %position of image planes (distance to SL
 % nSlices = 1;
 
 %%% images
-nSlices = 1; zSlices = [-100]; %position
-% image is alsways first downsampled to M0xN0 and upsampled later to MxN to keep resolution comparable and smooth it in case of upsampling
-U=double(imread('2butterfly4096.jpg')); imgname='Butterfly';
-% U=double(sum(imread('USAF-1951_cutout.png'),3)); U=scaleValues(-U,0,1); imgname='USAF_1961';
-% U=double(imread('pirate.tiff')); U=crop(U,N0,M0); imgname='PirateMen';
-[Nimg,Mimg]=size(U); U = flipud(crop(scaleValues(imresize(U,M/Mimg),0,1),N,M));
-%%% add sizebar
-% % % if ~strcmp(imgname,'One_Point')
-% % %     sizebar = imread('sizebar2mm.png'); sizebar = flipud(scaleValues(imresize(sum(double(sizebar),3),Dm/Dm0),0,0.8));
-% % %     U((end-1024)/2+1:(end-1024)/2+size(sizebar,1),(end+Mslm)/2-size(sizebar,2)+1:(end+Mslm)/2) = sizebar;
-% % % end
+% nSlices = 1; zSlices = [-100]; %position
+% % image is alsways first downsampled to M0xN0 and upsampled later to MxN to keep resolution comparable and smooth it in case of upsampling
+% U=double(imread('2butterfly4096.jpg')); ObjectName='Butterfly';
+% % U=double(sum(imread('USAF-1951_cutout.png'),3)); U=scaleValues(-U,0,1); ObjectName='USAF_1961';
+% % U=double(imread('pirate.tiff')); U=crop(U,N0,M0); ObjectName='PirateMen';
+% [Nimg,Mimg]=size(U); U = flipud(crop(scaleValues(imresize(U,M/Mimg),0,1),N,M));
+% %%% add sizebar
+% % % % sizebar = imread('sizebar2mm.png'); sizebar = flipud(scaleValues(imresize(sum(double(sizebar),3),Dm/Dm0),0,0.8));
+% % % % U((end-1024)/2+1:(end-1024)/2+size(sizebar,1),(end+Mslm)/2-size(sizebar,2)+1:(end+Mslm)/2) = sizebar;
 
 % Mslm=1920; Nslm=1080; U = crop(crop(U,Nslm,Mslm),N,M); %set outside of SLM to zero
 U = sqrt(U);
