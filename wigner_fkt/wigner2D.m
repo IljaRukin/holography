@@ -86,7 +86,7 @@ fy = squeeze(fy);%reshape(fy,N,M);
 peak = sqrt(xmax.^2 + ymax.^2); %amplitude of maximum frequency
 fig1=figure(1); maxFdir = ColorCodedDirection(peak,-(M/2-fx),-(N/2-fy));
 ticks=(0:2*floor(M/2*Dm)*2)/2/Dm; xticks(ticks+1);xticklabels((ticks)*Dm-floor(M/2*Dm));ticks=(0:2*floor(N/2*Dn)*2)/2/Dn; yticks(ticks+1);yticklabels((ticks)*Dn-floor(N/2*Dn));
-fname = '../results/wigner_fkt/wigner_dominant_frequency.png';
+fname = './wigner_dominant_frequency.png';
 % % % --- save plot ---
 print(gcf,fname,'-dpng','-r300');
 % img = imread(fname); imwrite(img(70:end-73,133:end-140,:),fname); %cropping
@@ -103,7 +103,7 @@ W = reshape(permute(W,[1,3,2,4]),M^2,N^2);
 fig2=figure(2);imagesc(W);colormap(vertcat([0,0,0],hot(255)));axis xy;axis('equal');axis off;
 % fig2=figure(2);imagesc(W(16*M:M^2-16*M,16*N:N^2-16*N));colormap(vertcat([0,0,0],hot(255)));axis xy;axis off;
 % fig2.WindowState = 'fullscreen';
-fname = '../results/wigner_fkt/wigner_lightfield.png';
+fname = './wigner_lightfield.png';
 % % % --- save plot ---
 print(gcf,fname,'-dpng','-r1200');
 % img = imread(fname); imwrite(img(70*4:end-(73+50)*4,(133+50)*4:end-140*4,:),fname); %cropping
@@ -126,7 +126,7 @@ LF = uint8(LF*254+1);
 val = 0;
 LF(1:w+1:M+M/w+1,:)=val; LF(:,1:w+1:N+N/w+1)=val;
 fig3=figure(3);imagesc(LF);colormap(vertcat([0,0,0],hot(255)));axis xy;axis('equal');axis off; colorbar();
-fname = '../results/wigner_fkt/STFT_lightfield.png';
+fname = './STFT_lightfield.png';
 % % % --- save plot ---
 print(gcf,fname,'-dpng','-r300');
 % img = imread(fname); imwrite(img(70:end-(73+50),(133+50):end-140,:),fname); %cropping
