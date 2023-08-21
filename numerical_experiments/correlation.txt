@@ -1,0 +1,5 @@
+ERF: 0.00000 (default) 
+conv abs corr: 0.37978 
+conv complex corr: 0.40004 
+ASM abs corr: 0.83901 
+ASM complex corr: 0.00060 
