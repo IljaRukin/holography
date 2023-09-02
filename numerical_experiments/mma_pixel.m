@@ -49,14 +49,14 @@ fprintf(fid,'ERF: %.5f (default) \n',0);
 
 fname = './phase_ttpmma_erf.png';
 I = angle(U_MMA2); I = (I/pi+1)/2; I = uint8(I*255);
-imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),hsv(256),fname,'PNG');%imwrite(I,hsv(256),fname,'PNG');
+% imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),hsv(256),fname,'PNG');%% imwrite(I,hsv(256),fname,'PNG');
 % print(3,fname,'-dpng','-r300');
-% img = imread(fname); imwrite(img(70:1240,133:1610,:),fname); %cropping
+% img = imread(fname); % imwrite(img(70:1240,133:1610,:),fname); %cropping
 fname = './amp_ttpmma_erf.png';
 I = abs(U_MMA2); I = I/max(I(:)); I = uint8(I*255);
-imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),jet(256),fname,'PNG');%imwrite(I,jet(256),fname,'PNG');
+% imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),jet(256),fname,'PNG');%% imwrite(I,jet(256),fname,'PNG');
 % print(4,fname,'-dpng','-r300');
-% img = imread(fname); imwrite(img(70:1240,133:1610,:),fname); %cropping
+% img = imread(fname); % imwrite(img(70:1240,133:1610,:),fname); %cropping
 
 %%%|a1*exp(i*phi1) - a2*exp(i*(phi2)-offset)| = |a1 - a2*exp(i*(phi2-offset-phi1))| => offset = avg(phi2-phi1)
 % clear U_MMA2;
@@ -79,14 +79,14 @@ fprintf(fid,'conv abs corr: %.5f \n',round(myCORR(abs(U_MMA1),abs(U_MMA2)),5));
 
 fname = './phase_ttpmma_conv.png';
 I = angle(U_MMA1); I = (I/pi+1)/2; I = uint8(I*255);
-imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),hsv(256),fname,'PNG');%imwrite(I,hsv(256),fname,'PNG');
+% imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),hsv(256),fname,'PNG');%% imwrite(I,hsv(256),fname,'PNG');
 % print(5,fname,'-dpng','-r300');
-% img = imread(fname); imwrite(img(70:1240,133:1610,:),fname); %cropping
+% img = imread(fname); % imwrite(img(70:1240,133:1610,:),fname); %cropping
 fname = './amp_ttpmma_conv.png';
 I = abs(U_MMA1); I = I/max(I(:)); I = uint8(I*255);
-imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),jet(256),fname,'PNG');%imwrite(I,jet(256),fname,'PNG');
+% imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),jet(256),fname,'PNG');%% imwrite(I,jet(256),fname,'PNG');
 % print(6,fname,'-dpng','-r300');
-% img = imread(fname); imwrite(img(70:1240,133:1610,:),fname); %cropping
+% img = imread(fname); % imwrite(img(70:1240,133:1610,:),fname); %cropping
 
 offset=median(angle(U_MMA1(:))-angle(U_MMA2(:)))/2; fprintf(fid,'conv complex corr: %.5f \n',round(myCORR(U_MMA1*exp(-1i*offset),U_MMA2),5)); %phase corrected complex error
 clear U_MMA1;
@@ -114,14 +114,14 @@ fprintf(fid,'ASM abs corr: %.5f \n',round(myCORR(abs(U_O),abs(U_MMA2)),5));
 
 fname = './phase_ttpmma_ASM.png';
 I = angle(U_O); I = (I/pi+1)/2; I = uint8(I*255);
-imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),hsv(256),fname,'PNG');%imwrite(I,hsv(256),fname,'PNG');
+% imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),hsv(256),fname,'PNG');%% imwrite(I,hsv(256),fname,'PNG');
 % print(7,fname,'-dpng','-r300');
-% img = imread(fname); imwrite(img(70:1240,133:1610,:),fname); %cropping
+% img = imread(fname); % imwrite(img(70:1240,133:1610,:),fname); %cropping
 fname = './amp_ttpmma_ASM.png';
 I = abs(U_O); I = I/max(I(:)); I = uint8(I*255);
-imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),jet(256),fname,'PNG');%imwrite(I,jet(256),fname,'PNG');
+% imwrite(I(1024-1080/2+1:1024+1080/2,1024-1920/2+1:1024+1920/2),jet(256),fname,'PNG');%% imwrite(I,jet(256),fname,'PNG');
 % print(8,fname,'-dpng','-r300');
-% img = imread(fname); imwrite(img(70:1240,133:1610,:),fname); %cropping
+% img = imread(fname); % imwrite(img(70:1240,133:1610,:),fname); %cropping
 
 offset=median(angle(U_O(:))-angle(U_MMA2(:)))/2; fprintf(fid,'ASM complex corr: %.5f \n',round(myCORR(U_O*exp(-1i*offset),U_MMA2),5)); %phase corrected complex error
 clear U_O;

@@ -9,6 +9,7 @@ z1 = -100; %-50;
 
 %% wavefield
 filename = './results/WF_3D_cube_z-80_-100_nSlices5_lambda638_Dm8_Dn8_rng0.fp.img';
+filename = 'E:/Aufnahmen/Analysis Hypothesen/WF/Butterfly_ConstantPhase_fullres_z-250_lambda638_Dm8_Dn8.fp.img';
 E=loadFPImage(filename);
 % [amp,piston,alphaX,alphaY]=loadTTPAparams([path,'params_',fname,'.mat'],lambda,Dm,Dn); E=amp.*exp(1i*( TTP2Phase(alphaX, alphaY, piston, 1, 1) ));
 % E=load([path,'E_',fname,'.mat']);E=E.E;
@@ -38,7 +39,7 @@ upscale = 1; %upsampling factor
 Dm = Dm/upscale; Dn = Dn/upscale;
 M = M*upscale; N = N*upscale;
 E_old = E;
-E = zeros(M,N);
+E = zeros(N,M);
 for m=1:upscale
     for n=1:upscale
         E(n:upscale:end,m:upscale:end)=E_old;
@@ -131,13 +132,14 @@ title('propagated wavefield itensity');
 
 %% lightfield
 w = 64; %window size
-LF = zeros(M+M/w+1,N+N/w+1,'double');
+LF = zeros(N+N/w+1,M+M/w+1,'double');
 for m=1:floor(M/w)
     for n=1:floor(N/w)
         LF(w*(n-1)+1+n:w*n+n,w*(m-1)+1+m:w*m+m) = fftshift(fft2(fftshift(conj(E(w*(n-1)+1:w*n,w*(m-1)+1:w*m)))));
     end
 end
-val = 1.1*max(max(abs(LF)));
+LF = LF./max(max(abs(LF)));
+val = 1.1;
 LF(1:w+1:M+M/w+1,:)=val; LF(:,1:w+1:N+N/w+1)=val;
 figure(4);imagesc((abs(LF))); %lightfield amplitude
 colorbar();colormap(hot);axis("equal");axis xy;axis off;
